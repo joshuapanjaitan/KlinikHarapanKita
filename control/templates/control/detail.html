@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{% block title %}
+    <title>Halaman Control Detail Layanan</title>
+{% endblock title %}
+
+
+
+{% block row %}
+<div class="row">
+    <div class="col-sm">
+        <h2>Nomor Antrian Berikutnya : {{now}}</h2>
+        <h3>Sisa Jumlah Antrian: {{total}}</h3>
+        <form action="{%url 'control:call'%}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="code_layanan" value="{{layanan}}">
+            <input type="hidden" name='stat' value="open">
+            {% if stat == 'closed' %}
+                <input type="hidden" name="onCall" value="{{active}}">
+                <input type="hidden" name='stat' value="closed">
+                <button type="submit" class="btn btn-primary">Finish</button>
+                <a href="{%url 'control:control'%}" class="btn btn-primary">Kembali</a>
+               
+            {% elif stat == 'open' %}
+                 <input type="hidden" name="onCall" value="{{now}}">
+                <button type="submit" class="btn btn-primary">Panggil</button>
+            {% endif %}
+            
+        </form>
+        
+       
+            
+    </div>
+    <div class="col-sm">
+        <h3>Nomor Antrian yang sedang di-Layani : {{active}}</h3>
+    </div>
+</div>
+    
+
+{% endblock row %}
+    

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{%load static%}
+
+
+
+{% block title %}
+    <title>{{page_title}}</title>
+{% endblock title %}
+    
+
+{% block app_css %}
+<link rel="stylesheet" href="{% static 'control/css/control.css' %}">
+{% endblock app_css %}
+    
+
+{% block row %}
+    
+    <div class="row">
+        
+        {% for content in layanan %}
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{%static content.foto%}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{content.nama_layanan}}</h5>
+              <p class="card-text">{{content.deskripsi}}</p>
+              <a href="{%url 'control:detail' content.code_layanan%}" class="btn btn-primary">Control Layanan Ini</a>
+            </div>
+          </div>
+        {% endfor %}
+            
+    </div>
+{% endblock row %}
+    

@@ -1,0 +1,5 @@
+Django==2.2.18
+mysqlclient @ file:///D:/Coding%20Project/Latihan%20Django/feb-2020/mysqlclient-1.4.6-cp37-cp37m-win32.whl
+numpy==1.20.1
+pytz==2021.1
+sqlparse==0.4.1
