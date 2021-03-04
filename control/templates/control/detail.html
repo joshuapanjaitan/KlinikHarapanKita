@@ -10,7 +10,13 @@
 {% block row %}
 <div class="row">
     <div class="col-sm">
-        <h2>Nomor Antrian Berikutnya : {{now}}</h2>
+        
+        {% if now == 'Habis' %}
+            <h2>Nomor Antrian Berikutnya : {{now}}</h2>
+        {%else%}
+            <h2>Nomor Antrian Berikutnya : {{layanan}}-{{now}}</h2>
+        {% endif %}
+            
         <h3>Sisa Jumlah Antrian: {{total}}</h3>
         <form action="{%url 'control:call'%}" method="POST">
             {% csrf_token %}
@@ -33,7 +39,14 @@
             
     </div>
     <div class="col-sm">
-        <h3>Nomor Antrian yang sedang di-Layani : {{active}}</h3>
+        
+        {% if active == 'No Serving' %}
+            <h3>Nomor Antrian yang sedang di-Layani :{{active}}</h3>
+        {% else%}
+            <h3>Nomor Antrian yang sedang di-Layani :{{layanan}}-{{active}}</h3>
+        {% endif %}
+            
+        
     </div>
 </div>
     

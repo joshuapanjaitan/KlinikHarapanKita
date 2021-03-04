@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{%load static%}
+
+
+{% block app_css %}
+    <link rel="stylesheet" href="{% static 'customer/css/style.css' %}">
+{% endblock app_css %}
+    
+
+{% block title %}
+    <title>{{page_title}}</title>
+{% endblock title %}
+
+{% block row %}
+
+    {% for q in queue %}
+        <div class="row">
+            <div class="col-sm">
+                <h3>Nomor Antrian : {{q.jenis_layanan}}-{{q.no_antrian}}</h3>
+                <h5>Silahkan Menuju Ke Meja : {{q.jenis_layanan}}</h5>
+            </div>
+            
+            
+            
+        </div>
+    {% endfor %}
+    
+{% endblock row %}
+    

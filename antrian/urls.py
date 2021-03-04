@@ -3,6 +3,10 @@ from django.urls import path, include
 from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('layanan/', include(('layanan.urls', 'layanan'), namespace='layanan')),
-    path('control/', include(('control.urls', 'control'), namespace='control')),
+    path('layanan/', include(('layanan.urls', 'layanan'),
+                             namespace='layanan')),  # customer facing
+    path('control/', include(('control.urls', 'control'),
+                             namespace='control')),  # employee Facing
+    path('customer/', include(('customer.urls', 'customer'),
+                              namespace='customer')),  # tv 32 inch
 ]
