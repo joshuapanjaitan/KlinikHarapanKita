@@ -15,6 +15,7 @@
     
     {% endblock app_css %}
         
+        
     {%include "snippets/styles.html"%}
 </head>
 <body>
@@ -30,5 +31,8 @@
     
     {%include "snippets/scripts.html"%}
     
+    {% block javascripts %}
+    
+    {% endblock javascripts %}
 </body>
 </html>

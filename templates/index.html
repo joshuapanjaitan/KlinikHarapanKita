@@ -15,7 +15,7 @@
       {% for content in layanan %}
           <div class="product" product-id={{content.id}} product-color="#D18B49">
             <div class="thumbnail">
-              <a href="{%url 'layanan:queue' content.code_layanan%}">
+              <a id="pick_layanan" href="{%url 'layanan:queue' content.code_layanan%}">
                 <img alt="#" src="{%static content.foto%}">
               </a>
             </div>

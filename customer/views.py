@@ -7,7 +7,6 @@ from layanan.forms import CurrentForm
 
 def display(request):
     queue = Current.objects.filter(status='active')
-    print(queue)
     context = {
         'page_title': 'Display',
         'queue': queue,

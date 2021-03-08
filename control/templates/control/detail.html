@@ -6,7 +6,6 @@
 {% endblock title %}
 
 
-
 {% block row %}
 <div class="row">
     <div class="col-sm">
@@ -16,8 +15,10 @@
         {%else%}
             <h2>Nomor Antrian Berikutnya : {{layanan}}-{{now}}</h2>
         {% endif %}
-            
-        <h3>Sisa Jumlah Antrian: {{total}}</h3>
+        <div class="block_total">
+            <h3 id="sisa_antrian">Sisa Jumlah Antrian: {{total}}</h3>
+        </div>
+        
         <form action="{%url 'control:call'%}" method="POST">
             {% csrf_token %}
             <input type="hidden" name="code_layanan" value="{{layanan}}">
@@ -53,3 +54,13 @@
 
 {% endblock row %}
     
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script>
+    $(document).ready(function(){
+        setInterval(function(){
+            $("#sisa_antrian").load(window.location.href + " #sisa_antrian" );
+        }, 100);
+    });
+</script>
+{% endblock javascripts %}

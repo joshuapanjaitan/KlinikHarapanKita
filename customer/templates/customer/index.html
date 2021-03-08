@@ -6,24 +6,41 @@
     <link rel="stylesheet" href="{% static 'customer/css/style.css' %}">
 {% endblock app_css %}
     
-
 {% block title %}
     <title>{{page_title}}</title>
 {% endblock title %}
 
+
 {% block row %}
+<div class="row"></div>
 
     {% for q in queue %}
-        <div class="row">
-            <div class="col-sm">
-                <h3>Nomor Antrian : {{q.jenis_layanan}}-{{q.no_antrian}}</h3>
-                <h5>Silahkan Menuju Ke Meja : {{q.jenis_layanan}}</h5>
-            </div>
-            
-            
-            
+        <div id="display{{q.jenis_layanan}}">
+            <h3>Nomor Antrian : {{q.jenis_layanan}}-{{q.no_antrian}}</h3>
+            <h5>Silahkan Menuju Ke Meja : {{q.jenis_layanan}}</h5>
         </div>
     {% endfor %}
-    
+</div>
 {% endblock row %}
+
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script>
+    $(document).ready(function(){
+       
+        setInterval(function(){ //layanan A
+            $("#displayA").load(window.location.href + " #displayA" );
+        }, 100);
+
+        setInterval(function(){ //layanan B
+            $("#displayB").load(window.location.href + " #displayB" );
+        }, 100);
+
+        setInterval(function(){ //layanan C
+            $("#displayC").load(window.location.href + " #displayC" );
+        }, 100);
+    });
+</script>
+{% endblock javascripts %}
     
