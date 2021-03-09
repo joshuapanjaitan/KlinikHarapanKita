@@ -19,6 +19,15 @@ def detail(request, code):
     cek = Current.objects.filter(jenis_layanan=code).count()
     non_active = Current.objects.filter(
         jenis_layanan=code).filter(status='non-active').count()
+    cek_pending = Current.objects.filter(status='pending').count()
+    context = {}
+
+    if cek_pending == 0:
+        context['pending_stat'] = 'none'
+    elif cek_pending != 0:
+        pending_queue = Current.objects.filter(status='pending')
+        context['pending_stat'] = 'check'
+        context['pending_queue'] = pending_queue
     if cek > 0 and non_active > 0:
         curr = Current.objects.filter(jenis_layanan=code).filter(
             status='non-active').order_by('no_antrian')[0]
@@ -30,21 +39,20 @@ def detail(request, code):
             active = Current.objects.filter(jenis_layanan=code).filter(
                 status='active').values()
             active_queue = active[0]['no_antrian']
-            context = {
-                'layanan': code,
-                'now': curr,
-                'total': tot,
-                'active': active_queue,
-                'stat': 'open',
-            }
+
+            context['layanan'] = code
+            context['now'] = curr
+            context['total'] = tot
+            context['active'] = active_queue
+            context['stat'] = 'open'
+
         else:
-            context = {
-                'layanan': code,
-                'now': curr,
-                'total': tot,
-                'active': "No Serving",
-                'stat': 'open',
-            }
+            context['layanan'] = code
+            context['now'] = curr
+            context['total'] = tot
+            context['active'] = "NoServing"
+            context['stat'] = 'open'
+
         return render(request, 'control/detail.html', context)
     elif cek > 0 and non_active == 0:  # kondisi antrian semua done sisa 1 curr serve
         cek_active = Current.objects.filter(
@@ -53,21 +61,21 @@ def detail(request, code):
             active = Current.objects.filter(jenis_layanan=code).filter(
                 status='active').values()
             active_queue = active[0]['no_antrian']
-            context = {
-                'layanan': code,
-                'now': "Habis",
-                'total': 0,
-                'active': active_queue,
-                'stat': 'closed',
-            }
+
+            context['layanan'] = code
+            context['now'] = "Habis"
+            context['total'] = 0
+            context['active'] = active_queue
+            context['stat'] = 'closed'
+
         else:
-            context = {
-                'layanan': code,
-                'now': "Habis",
-                'total': 0,
-                'active': "No Serving",
-                'stat': 'closed',
-            }
+
+            context['layanan'] = code
+            context['now'] = "Habis"
+            context['total'] = 0
+            context['active'] = "NoServing"
+            context['stat'] = 'closed'
+
         return render(request, 'control/detail.html', context)
 
     else:
@@ -81,26 +89,103 @@ def call(request):
         onCall = request.POST['onCall']
         line = request.POST['code_layanan']
         stat = request.POST['stat']
+        tot = request.POST['total']
+        #print(onCall, stat, tot)
         url = '/control/detail/'+line
         if stat == 'open':
             if int(onCall) == 1:
-                # update on Call Queue
-                Current.objects.filter(no_antrian=onCall).filter(
-                    jenis_layanan=line).update(status='active')
+                    # update on Call Queue
+                active_ct = Current.objects.filter(
+                    jenis_layanan=line).filter(status='active').count()
+                if active_ct != 0:
+                    active_left = Current.objects.filter(
+                        jenis_layanan=line).filter(status='active').values()
+                    active_left_id = active_left[0]['no_antrian']
+                    Current.objects.filter(no_antrian=active_left_id).filter(
+                        jenis_layanan=line).update(status='done')
+                    Current.objects.filter(no_antrian=onCall).filter(
+                        jenis_layanan=line).update(status='active')
+                elif active_ct == 0:
+                    Current.objects.filter(no_antrian=onCall).filter(
+                        jenis_layanan=line).update(status='active')
             elif int(onCall) > 1:
                 prev_call = int(onCall) - 1
-                Current.objects.filter(no_antrian=prev_call).filter(
-                    jenis_layanan=line).update(status='done')
-                Current.objects.filter(no_antrian=onCall).filter(
-                    jenis_layanan=line).update(status='active')
+                cek_prev = Current.objects.filter(no_antrian=prev_call).filter(
+                    jenis_layanan=line).values()
+                prev_status = cek_prev[0]['status']
+                if prev_status == 'active':
+                    Current.objects.filter(no_antrian=prev_call).filter(
+                        jenis_layanan=line).update(status='done')
+                    Current.objects.filter(no_antrian=onCall).filter(
+                        jenis_layanan=line).update(status='active')
+                elif prev_status == 'pending':
+                    active_ct = Current.objects.filter(
+                        jenis_layanan=line).filter(status='active').count()
+                    if active_ct != 0:
+                        active_left = Current.objects.filter(
+                            jenis_layanan=line).filter(status='active').values()
+                        active_left_id = active_left[0]['no_antrian']
+                        Current.objects.filter(no_antrian=active_left_id).filter(
+                            jenis_layanan=line).update(status='done')
+                        Current.objects.filter(no_antrian=onCall).filter(
+                            jenis_layanan=line).update(status='active')
+                    elif active_ct == 0:
+                        Current.objects.filter(no_antrian=onCall).filter(
+                            jenis_layanan=line).update(status='active')
+                elif prev_status == 'done':
+                    active_ct = Current.objects.filter(
+                        jenis_layanan=line).filter(status='active').count()
+                    if active_ct != 0:
+                        active_left = Current.objects.filter(
+                            jenis_layanan=line).filter(status='active').values()
+                        active_left_id = active_left[0]['no_antrian']
+                        Current.objects.filter(no_antrian=active_left_id).filter(
+                            jenis_layanan=line).update(status='done')
+                        Current.objects.filter(no_antrian=onCall).filter(
+                            jenis_layanan=line).update(status='active')
+                    elif active_ct == 0:
+                        Current.objects.filter(no_antrian=onCall).filter(
+                            jenis_layanan=line).update(status='active')
         elif stat == 'closed':
-
-            if onCall == 'No Serving':
+            if onCall == 'NoServing':
                 return redirect('control:control')
-            else:
-                Current.objects.filter(no_antrian=onCall).filter(
-                    jenis_layanan=line).update(status='done')
+            elif onCall != 'NoServing':
+                active_ct = Current.objects.filter(
+                    jenis_layanan=line).filter(status='active').count()
+                if active_ct != 0:
+                    active_left = Current.objects.filter(
+                        jenis_layanan=line).filter(status='active').values()
+                    active_left_id = active_left[0]['no_antrian']
+                    Current.objects.filter(no_antrian=active_left_id).filter(
+                        jenis_layanan=line).update(status='done')
+                    Current.objects.filter(no_antrian=onCall).filter(
+                        jenis_layanan=line).update(status='active')
+                elif active_ct == 0:
+                    Current.objects.filter(no_antrian=onCall).filter(
+                        jenis_layanan=line).update(status='active')
+
         return redirect(str(url))
     else:
         print('GK MASUK')
         return redirect('control:control')
+
+
+def skip(request, layanan, queue):
+    line = layanan
+    url = '/control/detail/'+line
+    print(layanan, queue)
+    Current.objects.filter(jenis_layanan=layanan).filter(
+        no_antrian=queue).update(status='pending')
+
+    return redirect(str(url))
+
+
+def finish(request, layanan, queue):
+    line = layanan
+    url = '/control/detail/'+line
+    print(layanan, queue)
+    if queue != 'NoServing':
+        Current.objects.filter(jenis_layanan=layanan).filter(
+            no_antrian=queue).update(status='done')
+
+    return redirect(str(url))

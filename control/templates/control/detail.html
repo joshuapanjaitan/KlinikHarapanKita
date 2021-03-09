@@ -26,12 +26,15 @@
             {% if stat == 'closed' %}
                 <input type="hidden" name="onCall" value="{{active}}">
                 <input type="hidden" name='stat' value="closed">
-                <button type="submit" class="btn btn-primary">Finish</button>
+                <a href="{%url 'control:finish' layanan active%}" class="btn btn-primary">Finish</a>
                 <a href="{%url 'control:control'%}" class="btn btn-primary">Kembali</a>
+
                
             {% elif stat == 'open' %}
-                 <input type="hidden" name="onCall" value="{{now}}">
+                <input type="hidden" name="total" value="{{total}}">
+                <input type="hidden" name="onCall" value="{{now}}">
                 <button type="submit" class="btn btn-primary">Panggil</button>
+                <a href="{%url 'control:skip' layanan now%}" type="btn" class="btn btn-primary">Skip</a>
             {% endif %}
             
         </form>
@@ -41,7 +44,7 @@
     </div>
     <div class="col-sm">
         
-        {% if active == 'No Serving' %}
+        {% if active == 'NoServing' %}
             <h3>Nomor Antrian yang sedang di-Layani :{{active}}</h3>
         {% else%}
             <h3>Nomor Antrian yang sedang di-Layani :{{layanan}}-{{active}}</h3>
@@ -50,7 +53,57 @@
         
     </div>
 </div>
+<br>
+<br>
+<div class="row">
+    <h3>Tabel Skip</h3>
     
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Code Layanan</th>
+                <th scope="col">No Antrian</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            {% if pending_stat == 'none' %}
+            <tbody>
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+            {%elif pending_stat == 'check'%}
+            <tbody>
+                {% for pending in pending_queue %}
+                <tr>
+                    <th scope="row">{{pending.no_antrian}}</th>
+                    <td>{{pending.jenis_layanan}}</td>
+                    <td>{{pending.jenis_layanan}}-{{pending.no_antrian}}</td>
+                    <form action="{%url 'control:call'%}" method="POST">
+                        <td>
+                            {% csrf_token %}
+                            <input type="hidden" name="code_layanan" value="{{layanan}}">
+                            <input type="hidden" name='stat' value="{{stat}}">
+                            <input type="hidden" name="onCall" value="{{pending.no_antrian}}">
+                            <input type="hidden" name="total" value="{{total}}">
+                            <button type="submit" class="btn btn-info">Panggil</button>
+                        </td>
+                    </form>
+                    
+                </tr>
+                {% endfor %}
+                </tbody>
+        {% endif %}
+        </table>
+    
+
+   
+        
+</div>
 
 {% endblock row %}
     
