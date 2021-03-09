@@ -173,9 +173,11 @@ def call(request):
 def skip(request, layanan, queue):
     line = layanan
     url = '/control/detail/'+line
-    print(layanan, queue)
-    Current.objects.filter(jenis_layanan=layanan).filter(
-        no_antrian=queue).update(status='pending')
+    if queue != 'NoServing':
+        Current.objects.filter(jenis_layanan=layanan).filter(
+            no_antrian=queue).update(status='pending')
+    else:
+        return redirect(str(url))
 
     return redirect(str(url))
 

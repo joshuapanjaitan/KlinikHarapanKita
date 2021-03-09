@@ -5,7 +5,7 @@ urlpatterns = [
     path('call/', views.call, name='call'),
     re_path(r'^detail/(?P<code>[A-Z]+)$', views.detail, name='detail'),
     re_path(
-        r'^skip/(?P<layanan>[A-Z]+)/(?P<queue>[0-9]+)$', views.skip, name='skip'),
+        r'^skip/(?P<layanan>[A-Z]+)/(?P<queue>[\w-]+)$', views.skip, name='skip'),
     re_path(
         r'^finish/(?P<layanan>[A-Z]+)/(?P<queue>[\w-]+)$', views.finish, name='finish'),
 ]
