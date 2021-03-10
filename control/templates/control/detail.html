@@ -11,9 +11,9 @@
     <div class="col-sm">
         
         {% if now == 'Habis' %}
-            <h2>Nomor Antrian Berikutnya : {{now}}</h2>
+            <h2 id = 'curr'>Nomor Antrian Berikutnya : {{now}}</h2>
         {%else%}
-            <h2>Nomor Antrian Berikutnya : {{layanan}}-{{now}}</h2>
+            <h2 id="curr">Nomor Antrian Berikutnya : {{layanan}}-{{now}}</h2>
         {% endif %}
         <div class="block_total">
             <h3 id="sisa_antrian">Sisa Jumlah Antrian: {{total}}</h3>
@@ -113,6 +113,10 @@
     $(document).ready(function(){
         setInterval(function(){
             $("#sisa_antrian").load(window.location.href + " #sisa_antrian" );
+        }, 100);
+
+        setInterval(function(){
+            $("#curr").load(window.location.href + " #curr" );
         }, 100);
     });
 </script>

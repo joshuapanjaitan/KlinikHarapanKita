@@ -8,12 +8,12 @@
   
 
 {% block row %}
-<div class="card">
-  
-    
-    <div class="products">
-      {% for content in layanan %}
-          <div class="product" product-id={{content.id}} product-color="#D18B49">
+
+<div class="row">
+  {% for content in layanan %}
+    <div class="col-sm">
+        <div class="card">
+          <div class="" product-id={{content.id}} product-color="#D18B49">
             <div class="thumbnail">
               <a id="pick_layanan" href="{%url 'layanan:queue' content.code_layanan%}">
                 <img alt="#" src="{%static content.foto%}">
@@ -22,12 +22,11 @@
             <h1 class="title">{{content.nama_layanan}}</h1>
             <p class="description">{{content.deskripsi}}</p>
           </div>
-        {% endfor %}
-      
-
-    
-  </div>
-  <div class="footer"><a class="btn" id="prev" href="#" ripple="" ripple-color="#666666">Prev</a><a class="btn" id="next" href="#" ripple="" ripple-color="#666666">Next</a></div>
+      </div>
+    </div>
+  {% endfor %}
 </div>
+  
+
 
 {% endblock row %}

@@ -12,16 +12,54 @@
 
 
 {% block row %}
-<div class="row"></div>
+<h1 style="text-align:center;color:green;"> 
+    RS Harapan Kita 
+</h1>  
+<br><br>
+<!-- Bootstrap table class -->
+<table class="table">  
+    <thead>  
+        <tr>  
+            <th scope="col">No </td>  
+            <th scope="col">Layanan</td>  
+            <th scope="col">No. Antrian</td>  
+            <th scope="col">Ke Ruangan</td>  
+        </tr>  
+    </thead>  
+      
+    <tbody>  
+        <tr>  
+            <th scope="row">1</td>  
+            <td>BPJS</td>  
 
-    {% for q in queue %}
-        <div id="display{{q.jenis_layanan}}">
-            <h3>Nomor Antrian : {{q.jenis_layanan}}-{{q.no_antrian}}</h3>
-            <h5>Silahkan Menuju Ke Meja : {{q.jenis_layanan}}</h5>
-        </div>
-    {% endfor %}
-</div>
-{% endblock row %}
+            {% for b in bpjs %}
+            <td> <span id="qBpjs"> <b>{{b.jenis_layanan}}-{{b.no_antrian}}</b></span> </td>
+            {% endfor %}  
+            <td>A</td>  
+        </tr>  
+        <tr>  
+            <th scope="row">2</td>  
+            <td>Poliklinik Gigi</td>  
+            
+            {% for b in gigi %}
+            <td> <span id="qGigi"> <b>{{b.jenis_layanan}}-{{b.no_antrian}}</b></span></td>
+            {% endfor %}
+            
+            <td>B</td>  
+            
+        </tr>  
+        <tr>  
+            <th scope="row">3</td>  
+            <td>Jantung</td>
+            {% for b in jantung %}
+            <td> <span id="qJantung"><b>{{b.jenis_layanan}}-{{b.no_antrian}}</b></span></td>
+            {% endfor %}  
+           
+            <td>C</td>  
+        </tr>  
+    </tbody>  
+</table>  
+{% endblock row%}
 
 
 {% block javascripts %}
@@ -29,16 +67,17 @@
 <script>
     $(document).ready(function(){
         setInterval(function(){ //layanan A
-            $("#displayA").load(window.location.href + " #displayA" );
+            $("#qBpjs").load(window.location.href + " #qBpjs" );
+        }, 100);
+        setInterval(function(){ //layanan A
+            $("#qGigi").load(window.location.href + " #qGigi" );
+        }, 100);
+        setInterval(function(){ //layanan A
+            $("#qJantung").load(window.location.href + " #qJantung" );
         }, 100);
 
-        setInterval(function(){ //layanan B
-            $("#displayB").load(window.location.href + " #displayB" );
-        }, 100);
+        
 
-        setInterval(function(){ //layanan C
-            $("#displayC").load(window.location.href + " #displayC" );
-        }, 100);
     });
 </script>
 {% endblock javascripts %}
