@@ -19,6 +19,20 @@
     {%include "snippets/styles.html"%}
 </head>
 <body>
+    
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">
+        <img src="{%static 'img/logo_harkit.png'%}" width="230" height="60" alt="">
+        </a>
+      
+        <span class="navbar-text">
+        {% block navbar-text %}
+            Ambil Nomor
+        {% endblock navbar-text %}
+        </span>
+      </nav>
+    
+    
     <div class="container">
       
         
@@ -28,7 +42,9 @@
             
 
     </div>
-    
+    <div class="footer">
+        <p>© 2021, RSAB Harapan Kita, All rights reserved.</p>
+      </div>
     {%include "snippets/scripts.html"%}
     
     {% block javascripts %}

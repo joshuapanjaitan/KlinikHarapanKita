@@ -9,15 +9,18 @@
     
 
 {% block app_css %}
-<link rel="stylesheet" href="{% static 'control/css/tes.css' %}">
+<link rel="stylesheet" href="{% static 'control/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css'%}">
 {% endblock app_css %}
     
 
+{% block navbar-text %}
+    {{page_title}}
+{% endblock navbar-text %}
 {% block row %}
-    
+
 {% for content in layanan %}
-<nav class="navbar navbar-light nav-content">
-    <img src="{%static content.foto%}" width="30" height="30" alt="">
+<nav class="navbar nav-content">
     <span class="ct"> Control Antrian untuk Layanan <b>{{content.nama_layanan}}</b></span>
     <a href="{%url 'control:detail' content.code_layanan%}" class="btn btn-light">Control Layanan Ini</a>
 </nav>

@@ -4,6 +4,8 @@
 
 {% block app_css %}
 <link rel="stylesheet" href="{% static 'css/front.css'%}">
+<link rel="stylesheet" href="{% static 'css/styles.css'%}">
+
 {% endblock app_css %}
   
 
@@ -11,6 +13,7 @@
 
 <div class="row">
   {% for content in layanan %}
+  <!-- content 
     <div class="col-sm">
         <div class="card">
           <div class="" product-id={{content.id}} product-color="#D18B49">
@@ -25,8 +28,55 @@
       </div>
     </div>
   {% endfor %}
+  -->
 </div>
-  
+
+<div class="row">
+  <h4 class="welcome">Silahkan untuk memilih layanan yang anda butuhkan, Petugas kami akan segera melayani anda</h4>
+  {% for content in layanan %}
+  <!-- Menu Layanan -->
+  <div class="box">
+    <div class="inside">
+      <span class="label_antrian">Antrian</span>
+      <span class="code_layanan">{{content.code_layanan}}</span>
+    </div>
+    <a href="{%url 'layanan:queue' content.code_layanan%}">
+      <span class="layanan">Pendaftaran {{content.nama_layanan}}</span>
+    </a>
+  </div>
+  {% endfor %}
+<!-- End Menu Layanan -->
+
+<div class="box">
+  <div class="inside">
+    <span class="label_antrian">Antrian</span>
+    <span class="code_layanan">D</span>
+  </div>
+  <a href="#">
+    <span class="layanan">Pendaftaran </span>
+  </a>
+</div>
+
+<div class="box">
+  <div class="inside">
+    <span class="label_antrian">Antrian</span>
+    <span class="code_layanan">E</span>
+  </div>
+  <a href="#">
+    <span class="layanan">Pendaftaran </span>
+  </a>
+</div>
+
+<div class="box">
+  <div class="inside">
+    <span class="label_antrian">Antrian</span>
+    <span class="code_layanan">F</span>
+  </div>
+  <a href="#">
+    <span class="layanan">Pendaftaran </span>
+  </a>
+</div>
 
 
+</div>
 {% endblock row %}

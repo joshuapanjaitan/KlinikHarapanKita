@@ -21,7 +21,7 @@ def detail(request, code):
         jenis_layanan=code).filter(status='non-active').count()
     cek_pending = Current.objects.filter(status='pending').count()
     context = {}
-
+    context['page_title'] = 'Halaman Control'
     if cek_pending == 0:
         context['pending_stat'] = 'none'
     elif cek_pending != 0:
