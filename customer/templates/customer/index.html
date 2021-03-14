@@ -11,12 +11,21 @@
 {% endblock title %}
 
 
+{% block navbar-text %}
+<span id="clock">
+    {{ myDate }}
+</span>
+{% endblock navbar-text %}
+
+{% block alt %}
+    <span class="monitor">
+        {{page_title}}
+    </span>
+{% endblock alt %}
+    
+
 {% block row %}
-<h1 style="text-align:center;color:green;"> 
-    RS Harapan Kita 
-</h1>  
-<br><br>
-<!-- Bootstrap table class -->
+<!-- Bootstrap table class 
 <table class="table">  
     <thead>  
         <tr>  
@@ -59,23 +68,80 @@
         </tr>  
     </tbody>  
 </table>  
-{% endblock row%}
+-->
+<div class="row">
+    <div class="box-display">
+        <div class="heading">
+            <span>Pendaftaran BPJS</span>
+        </div>
+        
+        <div class="label">
+            <span class="antri">No Antrian</span>
+            <span class="room">Ke Ruangan</span>
+        </div>
+        <div class="queue">
+            {% for b in bpjs %}
+            <span id=test>{{b.jenis_layanan}}-{{b.no_antrian}}</span>
+            {% endfor %}   
+            <span class="room-in">A</span>
+        </div>
+    </div>
 
+    <div class="box-display">
+        <div class="heading">
+            <span>Pendaftaran Poli Gigi</span>
+        </div>
+        
+        <div class="label">
+            <span class="antri">No Antrian</span>
+            <span class="room">Ke Ruangan</span>
+        </div>
+        <div class="queue">
+            {% for b in gigi %}
+            <span id=test2>{{b.jenis_layanan}}-{{b.no_antrian}}</span>
+            {% endfor %}   
+            <span class="room-in">B</span>
+        </div>
+    </div>
+
+    <div class="box-display">
+        <div class="heading">
+            <span>Pendaftaran Rawat Inap</span>
+        </div>
+        
+        <div class="label">
+            <span class="antri">No Antrian</span>
+            <span class="room">Ke Ruangan</span>
+        </div>
+        <div class="queue">
+            {% for b in jantung %}
+            <span id=test3>{{b.jenis_layanan}}-{{b.no_antrian}}</span>
+            {% endfor %}   
+            <span class="room-in">C</span>
+        </div>
+    </div>
+</div> 
+{% endblock row%}
+         
 
 {% block javascripts %}
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
     $(document).ready(function(){
-        setInterval(function(){ //layanan A
-            $("#qBpjs").load(window.location.href + " #qBpjs" );
+        setInterval(function(){
+            $("#clock").load(window.location.href + " #clock" );
+        }, 1000);
+        setInterval(function(){
+            $("#test").load(window.location.href + " #test" );
         }, 100);
-        setInterval(function(){ //layanan A
-            $("#qGigi").load(window.location.href + " #qGigi" );
+        setInterval(function(){
+            $("#test2").load(window.location.href + " #test2" );
         }, 100);
-        setInterval(function(){ //layanan A
-            $("#qJantung").load(window.location.href + " #qJantung" );
+        setInterval(function(){
+            $("#test3").load(window.location.href + " #test3" );
         }, 100);
     });
+   
 </script>
 {% endblock javascripts %}
     

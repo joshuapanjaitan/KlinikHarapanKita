@@ -2,12 +2,16 @@ from django.shortcuts import render, redirect
 import layanan
 from layanan.models import Current, Antrian
 from layanan.forms import CurrentForm
+from datetime import datetime
 # Create your views here.
 
 
 def display(request):
     context = {}
-    context['page_title'] = 'Display'
+    now = datetime.now().strftime('%H:%M:%S')
+    context['page_title'] = 'Monitor - Lantai 1'
+    context['myDate'] = now
+
     # bpjs
     bpjs = Current.objects.filter(status='active').filter(jenis_layanan='A')
     ct_bpjs = Current.objects.filter(

@@ -1,3 +1,64 @@
 .row {
   height: 250px;
 }
+.title {
+  text-align: center;
+  color: green;
+}
+.monitor {
+  display: block;
+  margin-right: 70px;
+}
+.box-display {
+  height: 150px;
+  width: 1200px;
+  background-color: #e7f2e8;
+  margin-top: 5%;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.heading {
+  background-color: #7fb89c;
+  text-align: center;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: lighter;
+}
+.label {
+  font-size: 20px;
+  font-weight: bold;
+}
+.antri {
+  margin-left: 10%;
+}
+.queue {
+  margin-left: 11%;
+}
+
+.queue {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+/* Media for Tablet */
+@media only screen and (min-width: 600px) {
+  .room {
+    margin-left: 40%;
+  }
+  .room-in {
+    float: right;
+    display: block;
+    margin-right: 15%;
+  }
+}
+
+/* For Desktop */
+@media only screen and (min-width: 768px) {
+  .room {
+    margin-left: 60%;
+  }
+  .room-in {
+    margin-left: 71%;
+  }
+}
