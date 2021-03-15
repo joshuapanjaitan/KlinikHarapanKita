@@ -20,12 +20,16 @@ def detail(request, code):
     non_active = Current.objects.filter(
         jenis_layanan=code).filter(status='non-active').count()
     cek_pending = Current.objects.filter(status='pending').count()
+    nama_layanan = Antrian.objects.filter(code_layanan=code).values()[
+        0]['nama_layanan']
     context = {}
     context['page_title'] = 'Halaman Control'
+    context['nama_layanan'] = nama_layanan
     if cek_pending == 0:
         context['pending_stat'] = 'none'
     elif cek_pending != 0:
-        pending_queue = Current.objects.filter(status='pending')
+        pending_queue = Current.objects.filter(
+            status='pending').filter(jenis_layanan=code)
         context['pending_stat'] = 'check'
         context['pending_queue'] = pending_queue
     if cek > 0 and non_active > 0:
@@ -92,7 +96,7 @@ def call(request):
         tot = request.POST['total']
         #print(onCall, stat, tot)
         url = '/control/detail/'+line
-        if stat == 'open':
+        if stat == 'open':  # jika sisa antrian masih ada
             if int(onCall) == 1:
                     # update on Call Queue
                 active_ct = Current.objects.filter(
@@ -146,7 +150,7 @@ def call(request):
                     elif active_ct == 0:
                         Current.objects.filter(no_antrian=onCall).filter(
                             jenis_layanan=line).update(status='active')
-        elif stat == 'closed':
+        elif stat == 'closed':  # jika sisa antrian sudah 0
             if onCall == 'NoServing':
                 return redirect('control:control')
             elif onCall != 'NoServing':

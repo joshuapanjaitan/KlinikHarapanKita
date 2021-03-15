@@ -1,0 +1,62 @@
+.row {
+    margin-top: 10%;
+  }
+  .card {
+    margin-right: 8%;
+  }
+  .nav-content {
+    margin-top: 2%;
+    background-color: #5fa9cf;
+  }
+  .ct {
+    margin-right: auto;
+    color: azure;
+    margin-left: 10px;
+  }
+.q-bar{
+    background-color: #59C2B0;
+    height: 150px;
+    border-bottom-left-radius: 20px;
+}  
+.q-bar h2{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+.q-bar h3{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+#curr{
+    color: #255146;
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    font-size: 50px;
+}
+.on-serve{
+    color: #255146;
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    font-size: 50px;
+}
+.next-queue-label{
+    float: none;
+    padding: 4px;
+}
+.block_total{
+    background-color: #59C2B0;
+    height: 50px;
+    margin-top: 5%;
+    text-align: center;
+    padding: 4px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5%;
+    border-bottom-left-radius: 20px;
+}
+table{
+    margin-bottom: auto;
+}

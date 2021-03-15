@@ -5,8 +5,9 @@
     <title>Halaman Control Detail Layanan</title>
 {% endblock title %}
 {% block app_css %}
-<link rel="stylesheet" href="{% static 'control/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'control/css/styles.css' %}">
 <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+
 {% endblock app_css %}
 
 
@@ -15,21 +16,29 @@
 {% block navbar-text %}
     {{page_title}}
 {% endblock navbar-text %}
-    
+{% block alt %}
+<span class="monitor">
+    {{nama_layanan}}
+</span>
+{% endblock alt %}
 
 {% block row %}
 <div class="row">
     <div class="col-sm">
-        
-        {% if now == 'Habis' %}
-            <h2 id = 'curr'>Nomor Antrian Berikutnya : {{now}}</h2>
-        {%else%}
-            <h2 id="curr">Nomor Antrian Berikutnya : {{layanan}}-{{now}}</h2>
-        {% endif %}
+        <div class="q-bar">
+            {% if now == 'Habis' %}
+                <h2 class="next-queue-label">Nomor Antrian Berikutnya </h2><span id = 'curr'>{{now}}</span>
+            {%else%}
+                <h2 class="next-queue-label">Nomor Antrian Berikutnya </h2><span id = 'curr'>{{layanan}}-{{now}}</span>
+            {% endif %}
+        </div>
+       
         <div class="block_total">
-            <h3 id="sisa_antrian">Sisa Jumlah Antrian: {{total}}</h3>
+            <h3 >Sisa Jumlah Antrian : <span id="sisa_antrian">{{total}}</span></h3>
         </div>
         
+
+
         <form action="{%url 'control:call'%}" method="POST">
             {% csrf_token %}
             <input type="hidden" name="code_layanan" value="{{layanan}}">
@@ -37,15 +46,15 @@
             {% if stat == 'closed' %}
                 <input type="hidden" name="onCall" value="{{active}}">
                 <input type="hidden" name='stat' value="closed">
-                <a href="{%url 'control:finish' layanan active%}" class="btn btn-primary">Finish</a>
-                <a href="{%url 'control:control'%}" class="btn btn-primary">Kembali</a>
-                <a href="{%url 'control:skip' layanan active%}" type="btn" class="btn btn-primary">Skip</a>
+                <a href="{%url 'control:finish' layanan active%}" class="btn btn-info">Finish</a>
+                <a href="{%url 'control:control'%}" class="btn btn-info">Kembali</a>
+                <a href="{%url 'control:skip' layanan active%}" type="btn" class="btn btn-warning">Skip</a>
                
             {% elif stat == 'open' %}
                 <input type="hidden" name="total" value="{{total}}">
                 <input type="hidden" name="onCall" value="{{now}}">
-                <button type="submit" class="btn btn-primary">Panggil</button>
-                <a href="{%url 'control:skip' layanan active%}" type="btn" class="btn btn-primary">Skip</a>
+                <button type="submit" class="btn btn-info">Panggil</button>
+                <a href="{%url 'control:skip' layanan active%}" type="btn" class="btn btn-warning">Skip</a>
             {% endif %}
             
         </form>
@@ -54,12 +63,14 @@
             
     </div>
     <div class="col-sm">
+        <div class="q-bar">
+            {% if active == 'NoServing' %}
+                <h3 class="next-queue-label">Sedang Dilayani  </h3><span class="on-serve">{{active}}</span>
+            {% else%}
+                <h3 class="next-queue-label">Sedang Dilayani </h3><span class="on-serve">{{layanan}}-{{active}}</span>
+            {% endif %}
+        </div>
         
-        {% if active == 'NoServing' %}
-            <h3>Nomor Antrian yang sedang di-Layani :{{active}}</h3>
-        {% else%}
-            <h3>Nomor Antrian yang sedang di-Layani :{{layanan}}-{{active}}</h3>
-        {% endif %}
             
         
     </div>
@@ -67,7 +78,7 @@
 <br>
 <br>
 <div class="row">
-    <h3>Tabel Skip</h3>
+    <h3>Daftar Antrian yang Dilompati (Skip)</h3>
     
         <table class="table">
             <thead>
@@ -109,13 +120,9 @@
                 {% endfor %}
                 </tbody>
         {% endif %}
-        </table>
-    
-
-   
-        
+        </table>     
 </div>
-
+<br><br>
 {% endblock row %}
     
 {% block javascripts %}
