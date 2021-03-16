@@ -9,8 +9,9 @@
     
 
 {% block app_css %}
-<link rel="stylesheet" href="{% static 'control/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'control/css/layanan.css' %}">
 <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+
 {% endblock app_css %}
     
 
@@ -20,9 +21,9 @@
 {% block row %}
 
 {% for content in layanan %}
-<nav class="navbar nav-content">
+<nav class="list-layanan navbar">
     <span class="ct"> Control Antrian untuk Layanan <b>{{content.nama_layanan}}</b></span>
-    <a href="{%url 'control:detail' content.code_layanan%}" class="btn btn-light">Control Layanan Ini</a>
+    <a href="{%url 'control:detail' content.code_layanan%}" class="btn btn-light lyn-btn">Control Layanan Ini</a>
 </nav>
 {% endfor %}
 {% endblock row %}

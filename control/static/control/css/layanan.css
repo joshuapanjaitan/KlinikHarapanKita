@@ -4,6 +4,13 @@
 .card {
     margin-right: 8%;
 }
+.list-layanan {
+    margin-top: 2%;
+    background-color:#59C2B0 !important;
+    height: 60px;
+    padding: 13px;
+    border-radius: 5px;
+}
 
 .ct {
     margin-right: auto;
